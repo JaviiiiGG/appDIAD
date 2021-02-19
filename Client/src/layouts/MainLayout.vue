@@ -15,7 +15,7 @@
           Qualificacions App
         </q-toolbar-title>
 
-        <div>Data {{ datacompleta[0]  }} de {{ datacompleta[1] }}</div>
+        <div>{{ datacompleta }}</div>
       </q-toolbar>
     </q-header>
 
@@ -42,9 +42,6 @@
 
 <script>
 import EssentialLink from 'components/EssentialLink.vue'
-
-const days = ['Diumenge', 'Dilluns', 'Dimarts', 'Dimecres', 'Dijous', 'Divendres', 'Dissabte']
-const months = ['Gener', 'Febrer', 'Març', 'Abril', 'Maig', 'Juny', 'Juliol', 'Agost', 'Setembre', 'Octubre', 'Novembre', 'Decembre']
 
 const linksData = [
   {
@@ -73,9 +70,70 @@ export default {
   computed: {
     datacompleta () {
       const todaysDate = new Date()
-      const day = days[todaysDate.getDay()]
-      const month = months[todaysDate.getMonth()]
-
+      var day
+      var month
+      switch (todaysDate.getDay()) {
+        case 1:
+          day = 'Dilluns'
+          break
+        case 2:
+          day = 'Dimarts'
+          break
+        case 3:
+          day = 'Dimecres'
+          break
+        case 4:
+          day = 'Dijous'
+          break
+        case 5:
+          // day = todaysDate.toDateString()
+          day = 'Divendres'
+          break
+        case 6:
+          day = 'Dissabte'
+          break
+        case 0:
+          day = 'Diumenge'
+          break
+      }
+      switch (todaysDate.getMonth()) {
+        case 0:
+          month = 'Gener'
+          break
+        case 1:
+          month = 'Febrer'
+          break
+        case 2:
+          month = 'Març'
+          break
+        case 3:
+          month = 'Abril'
+          break
+        case 4:
+          month = 'Maig'
+          break
+        case 5:
+          month = 'Juny'
+          break
+        case 6:
+          month = 'Juliol'
+          break
+        case 7:
+          month = 'Agost'
+          break
+        case 8:
+          month = 'Setembre'
+          break
+        case 9:
+          month = 'Octubre'
+          break
+        case 10:
+          month = 'Nobembre'
+          break
+        case 11:
+          month = 'Desembre'
+          break
+      }
       return {
         date: [day, month]
       }

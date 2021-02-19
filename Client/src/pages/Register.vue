@@ -11,7 +11,9 @@
         label="Nom Complet"
         lazy-rules
         :rules="[ val => val && val.length > 0 || 'Escriu el nom']"
-      />
+      >
+        <q-icon name="text_format"/>
+      </q-input>
 
       <q-input
         filled
@@ -19,7 +21,9 @@
         label="DNI"
         lazy-rules
         :rules="[ val => val && val.length > 0 || 'Escriu el dni']"
-      />
+       >
+        <q-icon name="credit_card"/>
+      </q-input>
 
       <q-input
         filled
@@ -27,7 +31,9 @@
         label="Usuari"
         lazy-rules
         :rules="[ val => val && val.length > 0 || 'Escriu el usuari']"
-      />
+      >
+        <q-icon name="perm_identity"/>
+      </q-input>
 
       <q-input
         filled
@@ -36,7 +42,9 @@
         label="Password"
         lazy-rules
         :rules="[ val => val !== null && val !== '' || 'Escriu la contrasenya']"
-      />
+      >
+        <q-icon name="password"/>
+      </q-input>
 
       <div>
         <q-btn label="Registrar" class="full-width" size="lg" type="submit" color="primary"/>
