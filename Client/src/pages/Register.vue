@@ -2,37 +2,39 @@
   <q-page class="flex flex-center">
     <div class="q-pa-md" style="max-width: 400px">
 
-    <q-form
-      class="q-gutter-md"
-    >
-      <q-input
-        filled
-        v-model="namec"
-        label="Nom Complet"
-        lazy-rules
-        :rules="[ val => val && val.length > 0 || 'Escriu el nom']"
-      >
-        <q-icon name="text_format"/>
-      </q-input>
+      <div class="row">
+        <h5 class="text-h5 text-white q-my-md">Register</h5>
+      </div>
+      <q-card square bordered class="q-pa-lg shadow-1">
+        <q-input
+          filled
+          v-model="nomcomplet"
+          label="Nom Complet"
+          clearable:false
+        >
+          <q-icon name="text_format"/>
+        </q-input>
 
-      <q-input
-        filled
-        v-model="dni"
-        label="DNI"
-        lazy-rules
-        :rules="[ val => val && val.length > 0 || 'Escriu el dni']"
-       >
-        <q-icon name="credit_card"/>
-      </q-input>
+        <q-input
+          filled
+          v-model="dni"
+          label="DNI"
+          clearable:false
+          lazy-rules
+          :rules="[ val => val && val.length > 0 || 'Escriu el dni']"
+        >
+          <q-icon name="credit_card"/>
+        </q-input>
 
-      <q-input
-        filled
-        v-model="name"
-        label="Usuari"
-        lazy-rules
-        :rules="[ val => val && val.length > 0 || 'Escriu el usuari']"
-      >
-        <q-icon name="perm_identity"/>
+        <q-input
+          filled
+          v-model="name"
+          label="Usuari"
+          clearable:false
+          lazy-rules
+          :rules="[ val => val && val.length > 0 || 'Escriu el usuari']"
+        >
+          <q-icon name="perm_identity"/>
       </q-input>
 
       <q-input
@@ -40,6 +42,7 @@
         type="password"
         v-model="password"
         label="Password"
+        clearable:true
         lazy-rules
         :rules="[ val => val !== null && val !== '' || 'Escriu la contrasenya']"
       >
@@ -49,7 +52,7 @@
       <div>
         <q-btn label="Registrar" class="full-width" size="lg" type="submit" color="primary"/>
       </div>
-    </q-form>
+    </q-card>
 
   </div>
   </q-page>
@@ -57,6 +60,14 @@
 
 <script>
 export default {
-  name: 'PageIndex'
+  name: 'Login',
+  data () {
+    return {
+      nomcomplet: '',
+      dni: '',
+      username: '',
+      password: ''
+    }
+  }
 }
 </script>

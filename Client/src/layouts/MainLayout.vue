@@ -15,7 +15,7 @@
           Qualificacions App
         </q-toolbar-title>
 
-        <div>{{ datacompleta }}</div>
+        <div>{{ getDateCat }}</div>
       </q-toolbar>
     </q-header>
 
@@ -68,75 +68,10 @@ export default {
     }
   },
   computed: {
-    datacompleta () {
-      const todaysDate = new Date()
-      var day
-      var month
-      switch (todaysDate.getDay()) {
-        case 1:
-          day = 'Dilluns'
-          break
-        case 2:
-          day = 'Dimarts'
-          break
-        case 3:
-          day = 'Dimecres'
-          break
-        case 4:
-          day = 'Dijous'
-          break
-        case 5:
-          // day = todaysDate.toDateString()
-          day = 'Divendres'
-          break
-        case 6:
-          day = 'Dissabte'
-          break
-        case 0:
-          day = 'Diumenge'
-          break
-      }
-      switch (todaysDate.getMonth()) {
-        case 0:
-          month = 'Gener'
-          break
-        case 1:
-          month = 'Febrer'
-          break
-        case 2:
-          month = 'Març'
-          break
-        case 3:
-          month = 'Abril'
-          break
-        case 4:
-          month = 'Maig'
-          break
-        case 5:
-          month = 'Juny'
-          break
-        case 6:
-          month = 'Juliol'
-          break
-        case 7:
-          month = 'Agost'
-          break
-        case 8:
-          month = 'Setembre'
-          break
-        case 9:
-          month = 'Octubre'
-          break
-        case 10:
-          month = 'Nobembre'
-          break
-        case 11:
-          month = 'Desembre'
-          break
-      }
-      return {
-        date: [day, month]
-      }
+    getDateCat () {
+      const timeStamp = new Date(Date.now())
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
+      return timeStamp.toLocaleDateString('ca-ES', options)
     }
   }
 }
