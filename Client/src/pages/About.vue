@@ -1,9 +1,9 @@
 <template>
   <q-page class="flex flex-center">
-    <img
-      alt="Quasar logo"
-      src="~assets/quasar-logo-full.svg"
-    >
+    <div>
+      <h1>Projecte DI-AD</h1>
+      <p>Javier Garcia</p>
+    </div>
   </q-page>
 </template>
 
