@@ -50,18 +50,5 @@ app.post('/login', (req, res) => {
     
 });
 app.post('/register', (req, res) => {
-    usr.insertUser(req.body.dni, req.body.username, req.body.password, req.body.full_name, (resposta) => {
-        if (resposta) {
-            let autToken = jwt.sign({
-                dni: req.body.dni,
-                username: req.body.username,
-                password: req.body.password,
-                full_name: req.body.full_name
-            }, accessTokenSecret)
-            res.status(200).json({autToken});
-        } else {
-            res.status(400).send({ ok: false, msg: "El usuario no puede registrarse" });
-        }
-    });
-    
+    usr.insertUser(req.body.username, req.body.password, req.body.full_name, req.body.dni, req.body.avatar,res);
 });
