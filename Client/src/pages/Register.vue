@@ -3,14 +3,16 @@
     <div class="q-pa-md" style="max-width: 400px">
 
       <div class="row">
-        <h5 class="text-h5 text-white q-my-md">Register</h5>
+        <h5 class="text-h5 text-grey q-my-md">Register</h5>
       </div>
       <q-card square bordered class="q-pa-lg shadow-1">
         <q-input
           filled
-          v-model="nomcomplet"
+          v-model="full_name"
           label="Nom Complet"
           clearable:false
+          lazy-rules
+          :rules="[ val => val && val.length > 0 || 'Escriu algo']"
         >
           <q-icon name="text_format"/>
         </q-input>
@@ -63,7 +65,7 @@ export default {
   name: 'Login',
   data () {
     return {
-      nomcomplet: '',
+      full_name: '',
       dni: '',
       username: '',
       password: ''
