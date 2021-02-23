@@ -11,7 +11,7 @@
           v-model="full_name"
           label="Nom Complet *"
           lazy-rules
-          :rules="[ val => val && val.length > 0 || 'Escriu algo']"
+          :rules="[ val => val && val.length > 0 && isValidName || 'Escriu el teu nom complet']"
         >
           <q-icon name="text_format"/>
         </q-input>
@@ -21,17 +21,17 @@
           v-model="dni"
           label="DNI *"
           lazy-rules
-          :rules="[ val => val && val.length > 0 || 'Escriu el dni']"
+          :rules="[ val => val && val.length > 0  && isValidDNI && val.length <= 9 || 'Escriu el dni']"
         >
           <q-icon name="credit_card"/>
         </q-input>
 
         <q-input
           filled
-          v-model="name"
+          v-model="username"
           label="Usuari *"
           lazy-rules
-          :rules="[ val => val && val.length > 0 && isValidDNI || 'Escriu el usuari']"
+          :rules="[ val => val && val.length > 0 || 'Escriu el usuari']"
         >
           <q-icon name="perm_identity"/>
       </q-input>
@@ -53,7 +53,7 @@
         v-model="passwordC"
         label="Confirm Password *"
         lazy-rules
-        :rules="[ val => val !== this.password || 'La contrasenya no es igual']"
+        :rules="[ val => val == this.password || 'La contrasenya no es igual']"
       >
         <q-icon name="password"/>
       </q-input>
@@ -83,6 +83,10 @@ export default {
     isValidDNI () {
       const regExp = new RegExp('[0-9](8)[A-Z]')
       return regExp.test(this.dni)
+    },
+    isValidName () {
+      var names = this.full_name.split(' ')
+      return names.length() >= 3 && names.filter(this.names).length() === names.length()
     }
   }
 }
