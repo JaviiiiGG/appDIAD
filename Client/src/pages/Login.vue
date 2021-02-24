@@ -28,6 +28,13 @@
 
         <div>
           <q-btn label="Login" class="full-width" size="lg" type="submit" color="primary"/>
+          <q-btn
+            flat
+            dense
+            round
+            icon="menu"
+            aria-label="Menu"
+            @click="drawerState=!drawerState"/>
         </div>
         <q-card-section class="text-center q-pa-none">
           <p class="text-grey-6">No estas registrat? <a href="#/Register">Registrat</a></p>
@@ -44,6 +51,16 @@ export default {
     return {
       username: '',
       password: ''
+    }
+  },
+  computed: {
+    drawerState: {
+      get () {
+        return this.$store.state.showcase.drawerState
+      },
+      set (val) {
+        this.$store.commit('showcase/updateDrawerState', val)
+      }
     }
   }
 }
