@@ -8,7 +8,7 @@
           round
           icon="menu"
           aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen"
+          @click="drawerState = !drawerState"
         />
 
         <q-toolbar-title>
@@ -20,7 +20,7 @@
     </q-header>
 
     <q-drawer
-      v-model="leftDrawerOpen"
+      v-model="drawerState"
       show-if-above
       bordered
       content-class="bg-grey-1"
@@ -72,6 +72,14 @@ export default {
       const timeStamp = new Date(Date.now())
       const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
       return timeStamp.toLocaleDateString('ca-ES', options)
+    },
+    drawerState: {
+      get () {
+        return this.$store.state.showcase.drawerState
+      },
+      set (val) {
+        this.$store.commit('showcase/updateDrawerState', val)
+      }
     }
   }
 }

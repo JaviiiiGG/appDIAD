@@ -34,21 +34,22 @@ const authenticateJWT = (req, res, next) => {
         res.sendStatus(401);
     }
 };
+const authorizeAlumne=(req, res, next)=>{
+    if(req.user.role == 'alumne'){
+
+        next()
+    } else {
+        return res.sendStatus(403); 
+    }
+}
 
 app.post('/login', (req, res) => {
-    usr.login(req.body.username, req.body.password, (resposta) => {
-        if (resposta) {
-            let autToken = jwt.sign({
-                username: req.body.username,
-                password: req.body.password
-            }, accessTokenSecret)
-            res.status(200).json({autToken});
-        } else {
-            res.status(400).send({ ok: false, msg: "El usuario o password es incorrecto" });
-        }
-    });
+    usr.login(req.body.username, req.body.password, res, req);
     
 });
 app.post('/register', (req, res) => {
-    usr.insertUser(req.body.username, req.body.password, req.body.full_name, req.body.dni, req.body.avatar,res);
+    usr.insertUser(req.body.username, req.body.password, req.body.full_name, req.body.dni, req.body.avatar,res ,req);
 });
+app.get('/notes', authenticateJWT, (req, res) =>{
+    usr.getNotesFromUser(req.headers.authorization, res, req)
+})

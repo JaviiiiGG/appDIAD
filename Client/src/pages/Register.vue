@@ -11,7 +11,7 @@
           v-model="full_name"
           label="Nom Complet *"
           lazy-rules
-          :rules="[ val => val && val.length > 0 && isValidName() || 'Escriu el teu nom complet']"
+          :rules="[ val => val && val.length > 0 && isValidName || 'Escriu el teu nom complet']"
         >
           <q-icon name="text_format"/>
         </q-input>
@@ -79,22 +79,17 @@ export default {
       passwordC: ''
     }
   },
-  methods: {
-    validLength () {
-      const nomValid = this.names.length
-      if (nomValid < 1) {
-
-      }
-    },
-    isValidName () {
-      var names = this.full_name.split(' ')
-      return names.length >= 3 && names.filter(names > 0).length === names.length
-    }
-  },
   computed: {
     isValidDNI () {
       const regExp = new RegExp('[0-9]{8}[A-Z]')
       return regExp.test(this.dni)
+    },
+    isValidName () {
+      function checkSize (size) {
+        return size.length > 1
+      }
+      var names = this.full_name.split(' ')
+      return names.length >= 3 && names.filter(checkSize).length === names.length
     }
   }
 }
