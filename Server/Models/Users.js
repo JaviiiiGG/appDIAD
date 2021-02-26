@@ -13,31 +13,35 @@ class Users {
 
         conn.query(sql, [username, password, full_name, dni, avatar], (err, results) => {
             if (err) {
-                res.status(401).send({
+                res.status(400).send({
                     ok: false,
-                    error: "Error inserint dades" + err
+                    error: "Error inserint dades"
                 });
             }
             else {
                 sql = "SELECT * FROM dni_profe where dni=?";
                 let id = results["insertId"]
                 conn.query(sql, [dni], (err, resu) => {
-                    if (resu.length <= 0) {
-                        sql = "INSERT INTO alumne(id_alumne) VALUES (?)"
+                    if (resu.length != 0) {
+                        sql = "INSERT INTO professor(id_profesor) VALUES (?)"
                         conn.query(sql, [id], (err, results) => {
                             if (err) {
-                                res.status(401).send({ ok: false, error: "Error al insertar alumne" + err })
+                                res.status(400).send({ 
+                                    ok: false, 
+                                    error: "Error al insertar profesor", 
+                                    token: autToken 
+                                })
                             }
                             else {
                                 let autToken = jwt.sign({
                                     id: id,
                                     username: req.body.username,
-                                    role: "alumne"
+                                    role: "profe"
                                 }, accessTokenSecret, { expiresIn: '2h' })
                                 const refreshToken = jwt.sign({
                                     id: id,
                                     username: username,
-                                    role: "alumne"
+                                    role: "profe"
                                 }, refreshTokenSecret);
                                 refreshTokens.push(refreshToken);
                                 res.status(200).send({
@@ -48,21 +52,25 @@ class Users {
                         })
                     }
                     else {
-                        sql = "INSERT INTO professor(id_profesor) VALUES (?)"
+                        
+                        sql = "INSERT INTO alumne(id_alumne) VALUES (?)"
                         conn.query(sql, [id], (err, results) => {
                             if (err) {
-                                res.status(402).send({ ok: false, error: "Error al insertar profesor", token: autToken })
+                                res.status(400).send({ 
+                                    ok: false, 
+                                    error: "Error al insertar alumne" 
+                                })
                             }
                             else {
                                 let autToken = jwt.sign({
                                     id: id,
                                     username: req.body.username,
-                                    role: "profe"
+                                    role: "alumne"
                                 }, accessTokenSecret, { expiresIn: '2h' })
                                 const refreshToken = jwt.sign({
                                     id: id,
                                     username: username,
-                                    role: "profe"
+                                    role: "alumne"
                                 }, refreshTokenSecret);
                                 refreshTokens.push(refreshToken);
                                 res.status(200).send({
@@ -130,9 +138,9 @@ class Users {
                 " ORDER BY nt.id_assig ";
             conn.query(sql, [id], (err, results) => {
                 if (err) {
-                    res.status(401).send({
+                    res.status(404).send({
                         ok: false,
-                        error: "Error agafant notes" + err
+                        error: "Error agafant notes"
                     });
                 } else {
                     var resu = []
@@ -163,9 +171,9 @@ class Users {
         let sql = "SELECT * FROM assignatura WHERE id_assig = ?"
         conn.query(sql, [id], (err, results) => {
             if (err) {
-                res.status(401).send({
+                res.status(404).send({
                     ok: false,
-                    error: "Error agafant assignatura" + err
+                    error: "Error agafant assignatura"
                 });
             }
             else {
@@ -183,9 +191,9 @@ class Users {
                 "WHERE nt.id_alumne = ? AND nt.id_assig = ass.id_assig AND ass.id_assig = ? "
             conn.query(sql, [idAlumne, idAssig], (err, results) => {
                 if (err) {
-                    res.status(401).send({
+                    res.status(404).send({
                         ok: false,
-                        error: "Error agafant notes" + err
+                        error: "Error agafant notes"
                     });
                 } else {
                     var resu = []
@@ -204,7 +212,7 @@ class Users {
                         res.status(200).send({ resu })
                     }
                     else {
-                        res.status(406).send({
+                        res.status(404).send({
                             ok: false,
                             error: "El alumne no esta matricular d'aquesta assignatura"
                         })
@@ -229,9 +237,9 @@ class Users {
                 "AND nt.id_assig = ass.id_assig"
             conn.query(sql, [id], (err, results) => {
                 if (err) {
-                    res.status(401).send({
+                    res.status(404).send({
                         ok: false,
-                        error: "Error agafant moduls" + err
+                        error: "Error agafant moduls"
                     });
                 } else {
                     var resu = []
@@ -269,7 +277,7 @@ class Users {
                 if (err) {
                     res.status(404).send({
                         ok: false,
-                        error: "Error"
+                        error: "Error obtenint el modul"
                     });
                 }
                 else {
@@ -304,7 +312,7 @@ class Users {
             "AND id_profe = ?"
             conn.query(sql, [nota, idAlumne, idAssig, idProfe], (err)=>{
                 if(err){
-                    res.status(403).send({
+                    res.status(400).send({
                         ok: false
                     });
                 }

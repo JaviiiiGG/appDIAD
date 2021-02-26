@@ -51,6 +51,7 @@ app.post('/register', (req, res) => {
     usr.insertUser(req.body.username, req.body.password, req.body.full_name, req.body.dni, req.body.avatar,res ,req);
 });
 app.get('/notes', authenticateJWT, (req, res) =>{
+    
     usr.getNotesFromUser(req.user.id, req.user.role, res)
 })
 app.get('/assignatura/:id', authenticateJWT, (req, res)=>{
