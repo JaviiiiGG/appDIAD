@@ -16,13 +16,13 @@ https.createServer({
     key: fs.readFileSync('./Certificados/Qualificacions.key'),
     cert: fs.readFileSync('./Certificados/Qualificacions.crt')
 }, app).listen(PORT, function () {
-    console.log("Servidor HTTPS escoltant al port" + PORT + "...");
+    console.log("Servidor HTTPS escoltant al port " + PORT + "...");
 });
 
 const authenticateJWT = (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (authHeader) {
-        const token = authHeader.split('')[1];
+        const token = authHeader.split(' ')[1];
         jwt.verify(token, accessTokenSecret, (err, user) => {
             if (err) {
                 return res.sendStatus(403);
@@ -51,5 +51,20 @@ app.post('/register', (req, res) => {
     usr.insertUser(req.body.username, req.body.password, req.body.full_name, req.body.dni, req.body.avatar,res ,req);
 });
 app.get('/notes', authenticateJWT, (req, res) =>{
-    usr.getNotesFromUser(req.headers.authorization, res, req)
+    usr.getNotesFromUser(req.user.id, req.user.role, res)
+})
+app.get('/assignatura/:id', authenticateJWT, (req, res)=>{
+    usr.getAssigFromId(req.params.id, res)
+})
+app.get('/notes/:id', authenticateJWT, (req, res)=>{
+    usr.getNotesFromId(req.user.id,req.params.id, req.user.role,res)
+})
+app.get('/moduls', authenticateJWT, (req, res) =>{
+    usr.getModulsFromProfe(req.user.id, req.user.role, res)
+})
+app.get('/moduls/:id', authenticateJWT, (req, res) =>{
+    usr.getModulsFromId(req.user.id,req.params.id, req.user.role, res)
+})
+app.put('/moduls/:id/:idA', authenticateJWT, (req, res) =>{
+    usr.setNotaAlumne(req.body.nota,req.user.id,req.params.id,req.params.idA, req.user.role, res)
 })
