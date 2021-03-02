@@ -34,38 +34,44 @@ const authenticateJWT = (req, res, next) => {
         res.sendStatus(401);
     }
 };
-const authorizeAlumne=(req, res, next)=>{
-    if(req.user.role == 'alumne'){
-
-        next()
-    } else {
-        return res.sendStatus(403); 
-    }
-}
 
 app.post('/login', (req, res) => {
-    usr.login(req.body.username, req.body.password, res, req);
-    
+    if (!req.body.username || !req.body.password) {
+        res.status(400).send({
+            OK: false,
+            error: "Variables d'entrada incorrectes"
+        })
+    } else {
+        usr.login(req.body.username, req.body.password, res, req);
+    }
+
 });
 app.post('/register', (req, res) => {
-    usr.insertUser(req.body.username, req.body.password, req.body.full_name, req.body.dni, req.body.avatar,res ,req);
+    if (!req.body.username || !req.body.password || !req.body.full_name || !req.body.dni) {
+        res.status(400).send({
+            OK: false,
+            error: "Variables d'entrada incorrectes"
+        })
+    } else {
+        usr.insertUser(req.body.username, req.body.password, req.body.full_name, req.body.dni, req.body.avatar, res, req);
+    }
 });
-app.get('/notes', authenticateJWT, (req, res) =>{
-    
+app.get('/notes', authenticateJWT, (req, res) => {
+
     usr.getNotesFromUser(req.user.id, req.user.role, res)
 })
-app.get('/assignatura/:id', authenticateJWT, (req, res)=>{
+app.get('/assignatura/:id', authenticateJWT, (req, res) => {
     usr.getAssigFromId(req.params.id, res)
 })
-app.get('/notes/:id', authenticateJWT, (req, res)=>{
-    usr.getNotesFromId(req.user.id,req.params.id, req.user.role,res)
+app.get('/notes/:id', authenticateJWT, (req, res) => {
+    usr.getNotesFromId(req.user.id, req.params.id, req.user.role, res)
 })
-app.get('/moduls', authenticateJWT, (req, res) =>{
+app.get('/moduls', authenticateJWT, (req, res) => {
     usr.getModulsFromProfe(req.user.id, req.user.role, res)
 })
-app.get('/moduls/:id', authenticateJWT, (req, res) =>{
-    usr.getModulsFromId(req.user.id,req.params.id, req.user.role, res)
+app.get('/moduls/:id', authenticateJWT, (req, res) => {
+    usr.getModulsFromId(req.user.id, req.params.id, req.user.role, res)
 })
-app.put('/moduls/:id/:idA', authenticateJWT, (req, res) =>{
-    usr.setNotaAlumne(req.body.nota,req.user.id,req.params.id,req.params.idA, req.user.role, res)
+app.put('/moduls/:id/:idA', authenticateJWT, (req, res) => {
+    usr.setNotaAlumne(req.body.nota, req.user.id, req.params.id, req.params.idA, req.user.role, res)
 })
